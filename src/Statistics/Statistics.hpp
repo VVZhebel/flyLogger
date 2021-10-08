@@ -12,4 +12,5 @@ private:
 public:
     static Statistics& getStat();
     void process(const Task&);
+    json data();
 };

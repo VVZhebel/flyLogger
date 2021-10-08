@@ -1,6 +1,6 @@
 #include "StatArray.hpp"
 
-StatArray::StatArray():StatArray(std::time(0)/ SECONDS_PER_DAY, STATARRAY_ADD_SIZE){
+StatArray::StatArray():StatArray( TIMESTAMP_TO_DAY(std::time(0)), STATARRAY_ADD_SIZE){
 }
 
 StatArray::StatArray(
@@ -70,20 +70,41 @@ StatArray StatArray::operator+(StatArray& A){
     
     StatArray Result(start, size);
     for (i=0; i<size; ++i){
-        index = (i+start) * SECONDS_PER_DAY;
+        index = DAY_TO_TIMESTAMP(i+start);
         Result[index] = operator[](index) + A[index];
     }
     return Result;
 }
 
 inline int StatArray::getIndex(const std::time_t timestamp)const{
-    return timestamp / SECONDS_PER_DAY - _start;
+    return TIMESTAMP_TO_DAY(timestamp) - _start;
 }
 
 void StatArray::print(){
     int Max = getIndex(std::time(0));
      for (int i=0; (i<_size) && (i<=Max); ++i){
-        std::time_t datetime = (i+_start) * SECONDS_PER_DAY;
+        std::time_t datetime = DAY_TO_TIMESTAMP(i+_start);
         std::cout << std::ctime(&datetime) << " " << _data[i] << std::endl;
     }   
+}
+
+json StatArray::toJson(){
+    std::time_t Current;
+    struct tm DateTime;
+    json R = json::array();
+    char buf[80];
+    int Max = getIndex(std::time(0));
+
+    for (int i=0; (i<_size) && (i<=Max); ++i){
+        json O = {};
+        Current = DAY_TO_TIMESTAMP(_start+i);
+        DateTime = *localtime(&Current);
+        std::strftime(buf, sizeof(buf), "%d.%m.%Y", &DateTime);
+        O["date"] = std::string(buf);
+        O["count"] = _data[i];
+
+        R.push_back(O);
+    }
+
+    return R;
 }

@@ -11,8 +11,9 @@ public:
 
     }
     virtual ~IModule(){
-        
+
     }
     virtual void count(const Task&)=0;
     virtual void print()=0;
+    virtual json toJson()=0;
 };

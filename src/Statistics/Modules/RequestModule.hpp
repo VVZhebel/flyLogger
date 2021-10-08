@@ -13,4 +13,5 @@ public:
     ~RequestModule();
     void count(const Task&);
     void print();
+    json toJson();
 };

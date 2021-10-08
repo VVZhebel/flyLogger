@@ -11,5 +11,6 @@ private:
     std::thread T;
 public:
     Worker();
+    Worker(void (*f)());
     ~Worker();
 };

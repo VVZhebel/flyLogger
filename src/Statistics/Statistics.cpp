@@ -14,8 +14,9 @@ Statistics& Statistics::getStat(){
 }
 
 void Statistics::process(const Task& T){
-    if (T.action == "PRINT")
-        _module->print();
-    else
-        _module->count(T);
+    _module->count(T);
+}
+
+json Statistics::data(){
+    return _module->toJson();
 }

@@ -17,6 +17,10 @@ Worker::Worker(){
     });
 }
 
+Worker::Worker(void (*f)()){
+    T = std::thread(f);
+}
+
 Worker::~Worker(){
     T.join();
 }
