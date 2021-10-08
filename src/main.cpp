@@ -8,12 +8,13 @@
 #include "Loader/Loader.hpp"
 #include <iostream>
 #include <signal.h>
+#include <atomic>
 
 #define TCP_WORKERS_COUNT 8
 #define LOG_FILE_NAME "log_file_test.txt"
 
 
-bool _Active;
+volatile bool _Active;
 
 void signal_callback(int signum)
 {
@@ -81,7 +82,7 @@ int main()
 
     //UDP server for logging
     LoggerHandler* LH = new LoggerHandler(LOG_FILE_NAME);
-    UDP_Server<LoggerHandler> S(22222, LH);
+    UDP_Server<LoggerHandler> LS(22222, LH);
 
     //TCP server for answer
     GetStatHandler* SH = new GetStatHandler();
@@ -89,7 +90,7 @@ int main()
     signal(SIGINT, signal_callback);
 
 
-    S.Start();
+    LS.Start();
     TS.Start();
 
     while (_Active)
@@ -97,10 +98,9 @@ int main()
         // Main loop
     }
 
-
     TaskPool::Pool().StopService();
     SocketPool::Pool().StopService();
-    S.Stop();
+    LS.Stop();
     TS.Stop();
 
     delete LH;
