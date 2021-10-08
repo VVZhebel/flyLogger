@@ -37,7 +37,6 @@ int main()
                      try
                      {
                          MSG = TaskPool::Pool().popTask();
-                         std::cout << MSG << std::endl;
                      }
                      catch (...)
                      {
