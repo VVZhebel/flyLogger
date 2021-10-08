@@ -5,14 +5,20 @@ PROG_NAME=flyLog
 
 all: main
 
-main: Server.o TaskPool.o Task.o Worker.o StatArray.o Statistics.o RequestModule.o
-	$(CC) $(FLAGS) Server.o TaskPool.o Task.o Worker.o StatArray.o Statistics.o RequestModule.o $(SRC_DIR)/main.cpp -o $(PROG_NAME) -lpthread
+main: LoggerHandler.o TaskPool.o SocketPool.o Task.o Worker.o StatArray.o Statistics.o RequestModule.o GetStatHandler.o Loader.o
+	$(CC) $(FLAGS) $^ $(SRC_DIR)/main.cpp -o $(PROG_NAME) -lpthread
 
-Server.o: $(SRC_DIR)/Server/Server.cpp
-	$(CC) $(FLAGS) -c $(SRC_DIR)/Server/Server.cpp
+LoggerHandler.o: $(SRC_DIR)/Handlers/LoggerHandler.cpp
+	$(CC) $(FLAGS) -c $(SRC_DIR)/Handlers/LoggerHandler.cpp
+
+GetStatHandler.o: $(SRC_DIR)/Handlers/GetStatHandler.cpp
+	$(CC) $(FLAGS) -c $(SRC_DIR)/Handlers/GetStatHandler.cpp
 
 TaskPool.o:	$(SRC_DIR)/TaskPool/TaskPool.cpp
 	$(CC) $(FLAGS) -c $(SRC_DIR)/TaskPool/TaskPool.cpp
+
+SocketPool.o:	$(SRC_DIR)/TaskPool/SocketPool.cpp
+	$(CC) $(FLAGS) -c $(SRC_DIR)/TaskPool/SocketPool.cpp
 
 Task.o: $(SRC_DIR)/Task/Task.cpp
 	$(CC) $(FLAGS) -c $(SRC_DIR)/Task/Task.cpp
@@ -28,6 +34,9 @@ Statistics.o: $(SRC_DIR)/Statistics/Statistics.cpp
 
 RequestModule.o: $(SRC_DIR)/Statistics/Modules/RequestModule.cpp
 	$(CC) $(FLAGS) -c $(SRC_DIR)/Statistics/Modules/RequestModule.cpp
+
+Loader.o: $(SRC_DIR)/Loader/Loader.cpp
+	$(CC) $(FLAGS) -c $(SRC_DIR)/Loader/Loader.cpp
 
 clean:
 	rm -rf *.o $(PROG_NAME)
