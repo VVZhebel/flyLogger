@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Modules/RequestModule.hpp"
+#include <unordered_map>
 
 class Statistics{
 private:
-    IModule* _module;
+    std::unordered_map<std::string, IModule*> _modules;
     Statistics();
     ~Statistics();
     Statistics(const Statistics&)=delete;

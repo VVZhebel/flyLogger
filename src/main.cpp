@@ -10,8 +10,7 @@
 #include <signal.h>
 #include <atomic>
 
-#define TCP_WORKERS_COUNT 8
-#define LOG_FILE_NAME "log_file_test.txt"
+#include "settings.hpp"
 
 
 volatile bool _Active;
@@ -82,11 +81,11 @@ int main()
 
     //UDP server for logging
     LoggerHandler* LH = new LoggerHandler(LOG_FILE_NAME);
-    UDP_Server<LoggerHandler> LS(22222, LH);
+    UDP_Server<LoggerHandler> LS(UDP_PORT, LH);
 
     //TCP server for answer
     GetStatHandler* SH = new GetStatHandler();
-    TCP_Server<GetStatHandler> TS(22223, 128, SH);
+    TCP_Server<GetStatHandler> TS(TCP_PORT, 128, SH);
     signal(SIGINT, signal_callback);
 
 
