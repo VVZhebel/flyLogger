@@ -4,6 +4,8 @@
 #include "unordered_map"
 #include <vector>
 
+#define WEEK_DAYS 7
+
 class RequestModule: public IModule{
 private:
     StatArray _counter;
@@ -12,6 +14,5 @@ public:
     RequestModule();
     ~RequestModule();
     void count(const Task&);
-    void print();
     json toJson();
 };

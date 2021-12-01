@@ -32,7 +32,8 @@ public:
     StatArray& operator++();
     StatArray operator++(int);
     int& operator[](const std::time_t);
-
+    int sum_last(const int);
+    
     void print();
 
     json toJson();
