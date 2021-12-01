@@ -5,6 +5,7 @@
 #include <vector>
 
 #define WEEK_DAYS 7
+#define TOP_USERS_COUNT 5
 
 class RequestModule: public IModule{
 private:
@@ -16,3 +17,5 @@ public:
     void count(const Task&);
     json toJson();
 };
+
+bool comparePairsOfUsers(std::pair<std::string,int>&, std::pair<std::string,int>&);

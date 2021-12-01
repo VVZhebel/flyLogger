@@ -114,7 +114,7 @@ int StatArray::sum_last(const int t){
     int current = getIndex(std::time(0));
     int start = (current >= (t-1))? current-t + 1 : 0;
     
-    for (int i=_start+start; i<=current; i++)
+    for (int i=start; i<=current; i++)
         s+=_data[i];
 
     return s;
